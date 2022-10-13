@@ -15,7 +15,7 @@
                 <th>Nombre</th>
                 <th>Localidad</th>
                 <th>Acción</th>
-                <th id=""></th>
+               
             </tr>
         </thead>
         <tbody></tbody>
@@ -41,7 +41,7 @@
             var request= "api/departamentos";
 
             //VALOR PARA EL URL DE Empleados
-            var valorID = "";
+            
             $.ajax({
                 "url": url + request
                 ,"method" : "GET"
@@ -54,13 +54,15 @@
                             "value" : dept.numero
                             
                     });
-                    crearBotones.appendTo($(ID+);
+                    var valorID = $(this).val();
+                    
+                    crearBotones.appendTo($(valorID));
                         html += "<tr>";
                             html += "<td>" + dept.numero +"</td>";
                             html += "<td>" + dept.nombre +"</td>";
                             html += "<td>" + dept.localidad +"</td>";
-                            html += "<td id='"+ID+"'>"+ crearBotones+"</td>";
-                            console.log(dept.numero);
+                            html += "<td id='"+valorID+"'>Empleados</td>";
+                            console.log(valorID);
                         html += "</tr>";   
                     })
 
