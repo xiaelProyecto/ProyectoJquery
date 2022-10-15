@@ -105,7 +105,7 @@
 
                         colMod.append(botonMod);
 
-                        //BOTON CLICL MODIFICAR FUNCION
+                        //BOTON CLICK MODIFICAR FUNCION
                         botonMod.click(function(){
                             //GUARDO EL VALOR DE ID
                             var numero = $(this).val();
@@ -117,7 +117,7 @@
                             
                             var cajaID = $("<input>",
                             {"type" : "text",
-                                "ID": "cajaID"   });
+                                "id": "cajaID"   });
 
                                 
                             $("#cajaModificarID").append(textID);
@@ -129,7 +129,7 @@
                             
                             var cajaNombre = $("<input>",
                             {"type" : "text",
-                                "ID": "cajaNombre"   });
+                                "id": "cajaNombre"   });
 
                             $("#cajaModificarNombre").append(textNombre);
                             $("#cajaModificarNombre").append(cajaNombre);
@@ -140,7 +140,7 @@
                             
                             var cajaDireccion = $("<input>",
                             {"type" : "text",
-                                "ID": "cajaDireccion"   });
+                                "id": "cajaDireccion"   });
 
                             $("#cajaModificarDireccion").append(textDireccion);
                             $("#cajaModificarDireccion").append(cajaDireccion);   
@@ -151,7 +151,7 @@
                             
                             var cajaTelefono = $("<input>",
                             {"type" : "text",
-                                "ID": "cajaTelefono"   });
+                                "id": "cajaTelefono"   });
 
                             $("#cajaModificarTelefono").append(textTelefono);
                             $("#cajaModificarTelefono").append(cajaTelefono);
@@ -162,39 +162,41 @@
                             
                             var cajaCamas = $("<input>",
                             {"type" : "text",
-                                "ID": "cajaCamas"   });
+                                "id": "cajaCamas"   });
 
                             $("#cajaModificarCamas").append(textCamas);
                             $("#cajaModificarCamas").append(cajaCamas);
                             
-                                console.log();
+                                
                                 
                             //BOTON MODIFICAR DE DIV
 
                             var botonModificar = $("<button>",
                                 {"text": "Modificar",
-                                "value" : cajaID
+                                "value" : numero
                                 });
                             
                             $("#botonModificar").append(botonModificar); 
                             
                             //BOTON DE MODIFICAR
                             botonModificar.click(function(){
+
+                                //LLAMO A LA FUNCIÓN
                                 var datos = getJsonHospital();
-                                var request = "/webresources/hospitales/put";
-                                console.log("HOLA");
+                                var request = "webresources/hospitales/put";                             
+                                
                                 $.ajax({
                                     "url": urlHospital + request,
                                     "type": "PUT",
                                     "data" : datos,
-                                    "contentType" : "application/jason",
+                                    "contentType" : "application/json",
                                     success: function(){
-                                        console.log("Modificado...");
+                                        console.log("Modificado el ID : "+numero);
                                         cargarHospital();
                                     }
-                                })
+                                });
 
-                            })
+                            });
 
 
                         });
@@ -208,7 +210,20 @@
 
 
         }
+        function cargarModificar(){
+
+        }
+
         function getJsonHospital(){
+
+            //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
+            var id = "";
+            var nom = "";
+            var dir = "";
+            var tel = "";
+            var cam = "";
+
+            //GUARDAR LOS VALORES DE LAS CAJAS
             var id = parseInt($("#cajaID").val());
             var nom = $("#cajaNombre").val();
             var dir = $("#cajaDireccion").val();
@@ -221,9 +236,9 @@
             hospital.direccion = dir;
             hospital.telefono = tel;
             hospital.camas = cam;
+
             var dataJson = JSON.stringify(hospital);
             return dataJson;
-
         }
 
         $(document).ready(function(){
