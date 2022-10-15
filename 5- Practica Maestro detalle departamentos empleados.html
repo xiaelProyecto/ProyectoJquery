@@ -18,11 +18,7 @@
                 <th>Nombre</th>
                 <th>Localidad</th>
                 <th>Acción</th>
-<<<<<<< HEAD
-               
-=======
 
->>>>>>> f8c84ab4866d6e59faf5a976e2cb693f051a6745
             </tr>
         </thead>
         <tbody></tbody>
@@ -56,7 +52,7 @@
             
             $.ajax({
                 "url": urlDepartamentos + request
-                , "method": "GET"
+                , "type": "GET"
                 , "dataType": "json"
                 , success: function (data) {
                     var html = "";
@@ -78,20 +74,25 @@
                         //COLUMNA DE ACCION DEL BOTON EMPLEADOS
                         var colAccion = $("<td>");
                         fila.append(colAccion);
-                        var boton = $("<button>", {"text": "Empleados"+dept.numero});
+                        var boton = $("<button>", 
+                        {"text": "Empleados "+dept.numero,
+                        "value": dept.numero});
                         colAccion.append(boton);
                         $("#tabladepartamentos tbody").append(fila);    
                         boton.click(function(){
                             var numero = $(this).val();
                             console.log(numero);
                             
-                            var request = "api/empleados/empleadosdepartamento/";
+                            //RUTA CON EL ID DEL NUMERO 
+                            var request1 = "api/empleados/empleadosdepartamento/" + numero;
+                            var html= "";
                             $.ajax({
-                                "url": urlEmpleados + request,
+                                "url": urlEmpleados + request1,
                                 "type" : "GET",
                                 "dataType" : "json",
                                 "success" : function(data){
                                     $.each(data, function (index, empl) {
+                                        
                                       html += "<tr>";
                                         html += "<td>" + empl.apellido + "</td>";
                                          html += "<td>" + empl.oficio + "</td>";
@@ -100,7 +101,8 @@
                                                  html += "</tr>";
                     });
 
-                    $("#tabladepartamentos tbody").html(html);
+                    //MOSTRAR LA TABLA DE EMPLEADOS
+                    $("#tablaempleados tbody").html(html);
                                 }
 
                             });
