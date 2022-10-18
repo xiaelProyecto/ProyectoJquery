@@ -36,14 +36,25 @@
     <div id="botonModificar"></div>
     <hr/>
     <h3>Insertar datos</h3>
-    <div><button id="botonInsertar">Quiero insertar datos</button></div>
-    <div id ="tituloInsertar"></div>
-    <div id="cajaInsertarID"></div>
-    <div id="cajaInsertarNombre"></div>
-    <div id="cajaInsertarDireccion"></div>
-    <div id="cajaInsertarTelefono"></div>
-    <div id="cajaInsertarCamas"></div>
-    <div id="botonInsertarAceptar"></div>
+    <label>Insertar ID</label>
+    <input type="text" id="cajaInsertarID"/>
+    <br/>
+    <label>Insertar Nombre</label>
+    <input type="text" id="cajaInsertarNombre"/>
+    <br/>
+    <label>Insertar Direccion</label>
+    <input type="text" id="cajaInsertarDireccion"/>
+    <br/>
+    <label>Insertar Telefono</label>
+    <input type="text" id="cajaInsertarTelefono"/>
+    <br/>
+    <label>Insertar Camas</label>
+    <input type="text" id="cajaInsertarCamas"/>
+    <br/>
+    <button id="botonInsertarDatos">
+        Quiero insertar datos
+    </button>
+    
 
     <script src="js/jquery-3.6.1.min.js"></script>
     <script>
@@ -165,11 +176,9 @@
 
                         });
 
+                        //BOTON PARA INSERTAR DATOS
+                        $("#botonInsertarDatos").click(function(){
 
-                        $("#botonInsertar").click(function(){
-                                console.log("hola");
-                                crearCajasInsertar();
-                                console.log("hola2");
                                 //LLAMO A LA FUNCIÓN DE DATOS
                                 var datos = getJsonHospitalInsertar();
                                 var request = "/webresources/hospitales/post";
@@ -180,7 +189,7 @@
                                     "data" : datos,
                                     "contentType": "application/json",
                                     success : function(){
-                                        console.log("Insertando el ID : "+ numero);
+                                        console.log("Insertando correcto");
                                         cargarHospital();
                                     }
                                 })
@@ -253,66 +262,6 @@
                             $("#cajaModificarCamas").append(cajaCamas);
         }
 
-        function crearCajasInsertar(){
-                            //CAJA DE ID
-                            var textInsertarID = $("<label>",
-                                {"text": "Inserar ID : "});
-                            
-                            var cajaInsertarID = $("<input>",
-                            {"type" : "text",
-                                "id": "cajaInsertarID"   });
-
-                                
-                            $("#cajaInsertarID").append(textInsertarID);
-                            $("#cajaInsertarID").append(cajaInsertarID);
-
-                            //CAJA DE NOMBRE
-                            var textInsertarNombre = $("<label>",
-                                {"text": "Insertar Nombre : "});
-                            
-                            var cajaInsertarNombre = $("<input>",
-                            {"type" : "text",
-                                "id": "cajaInsertarNombre"   });
-
-                            $("#cajaInsertarNombre").append(textInsertarNombre);
-                            $("#cajaInsertarNombre").append(cajaInsertarNombre);
-
-                            //CAJA DE DIRECCION
-                            var textInsertarDireccion = $("<label>",
-                                {"text": "Insertar Dirección : "});
-                            
-                            var cajaInsertarDireccion = $("<input>",
-                            {"type" : "text",
-                                "id": "cajaInsertarDireccion"   });
-
-                            $("#cajaInsertarDireccion").append(textInsertarDireccion);
-                            $("#cajaInsertarDireccion").append(cajaInsertarDireccion);   
-
-                            //CAJA DE TELEFONO
-                            var textInsertarTelefono = $("<label>",
-                                {"text": "Insertar Telefono : "});
-                            
-                            var cajaInsertarTelefono = $("<input>",
-                            {"type" : "text",
-                                "id": "cajaInsertarTelefono"   });
-
-                            $("#cajaInsertarTelefono").append(textInsertarTelefono);
-                            $("#cajaInsertarTelefono").append(cajaInsertarTelefono);
-
-                            //CAJA DE CAMAS
-                            var textInsertarCamas= $("<label>",
-                                {"text": "Insertar Camas : "});
-                            
-                            var cajaInsertarCamas = $("<input>",
-                            {"type" : "text",
-                                "id": "cajaInsertarCamas"   });
-
-                            $("#cajaInsertarCamas").append(textInsertarCamas);
-                            $("#cajaInsertarCamas").append(cajaInsertarCamas);
-
-
-        }
-
         function getJsonHospital(){
 
             //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
@@ -343,57 +292,30 @@
         function getJsonHospitalInsertar(){
 
             //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
-            var id = "";
-            var nom = "";
-            var dir = "";
-            var tel = "";
-            var cam = "";
+            var idI = "";
+            var nomI = "";
+            var dirI = "";
+            var telI = "";
+            var camI = "";
 
             //GUARDAR LOS VALORES DE LAS CAJAS COJE EL ID
-            var id = parseInt($("#cajaInsertarID").val());
-            var nom = $("#cajaInsertarNombre").val();
-            var dir = $("#cajaInsertarDireccion").val();
-            var tel = $("#cajaInsertarTelefono").val();
-            var cam = parseInt($("#cajaInsertarCamas").val());
+            var idI = parseInt($("#cajaInsertarID").val());
+            var nomI = $("#cajaInsertarNombre").val();
+            var dirI = $("#cajaInsertarDireccion").val();
+            var telI = $("#cajaInsertarTelefono").val();
+            var camI = parseInt($("#cajaInsertarCamas").val());
 
             var hospital = new Object();
-            hospital.idhospital = id;
-            hospital.nombre = nom;
-            hospital.direccion = dir;
-            hospital.telefono = tel;
-            hospital.camas = cam;
+            hospital.idhospital = idI;
+            hospital.nombre = nomI;
+            hospital.direccion = dirI;
+            hospital.telefono = telI;
+            hospital.camas = camI;
 
             var dataJson = JSON.stringify(hospital);
             return dataJson;
         }
 
-        //FUNCION PARA CREAR LAS CAJAS DE INSERTAR
-        function getJsonHospital(){
-
-        //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
-        var id = "";
-        var nom = "";
-        var dir = "";
-        var tel = "";
-        var cam = "";
-
-        //GUARDAR LOS VALORES DE LAS CAJAS
-        var id = parseInt($("#cajaID").val());
-        var nom = $("#cajaNombre").val();
-        var dir = $("#cajaDireccion").val();
-        var tel = $("#cajaTelefono").val();
-        var cam = parseInt($("#cajaCamas").val());
-
-        var hospital = new Object();
-        hospital.idhospital = id;
-        hospital.nombre = nom;
-        hospital.direccion = dir;
-        hospital.telefono = tel;
-        hospital.camas = cam;
-
-        var dataJson = JSON.stringify(hospital);
-        return dataJson;
-}
 
         $(document).ready(function(){
             cargarHospital();
