@@ -24,14 +24,26 @@
         </thead>
         <tbody></tbody>
     </table>
-
+    <hr/>
+    
     <!--MOSTRAR LAS CAJAS PARA MODIFICIAR-->
+    <div id ="tituloModificar"></div>
     <div id="cajaModificarID"></div>
     <div id="cajaModificarNombre"></div>
     <div id="cajaModificarDireccion"></div>
     <div id="cajaModificarTelefono"></div>
     <div id="cajaModificarCamas"></div>
     <div id="botonModificar"></div>
+    <hr/>
+    <h3>Insertar datos</h3>
+    <div><button id="botonInsertar">Quiero insertar datos</button></div>
+    <div id ="tituloInsertar"></div>
+    <div id="cajaInsertarID"></div>
+    <div id="cajaInsertarNombre"></div>
+    <div id="cajaInsertarDireccion"></div>
+    <div id="cajaInsertarTelefono"></div>
+    <div id="cajaInsertarCamas"></div>
+    <div id="botonInsertarAceptar"></div>
 
     <script src="js/jquery-3.6.1.min.js"></script>
     <script>
@@ -83,7 +95,7 @@
                             var request = "webresources/hospitales/delete/" + numero;
                             var html= "";
 
-                            console.log(urlHospital+request);
+                            
                             $.ajax({
                                 "url" : urlHospital + request,
                                 "type" : "DELETE",
@@ -111,8 +123,81 @@
                             var numero = $(this).val();
                             console.log(numero);
 
-                            //CAJA DE ID
-                            var textID = $("<label>",
+                            //TEXTO DE TITULO PARA MODIFICAR
+                            var tituloModificar = $("<h3>",
+                                {"text": "Modificar los datos, introduce el ID para cambiar los datos."});
+                            $("#tituloModificar").append(tituloModificar);    
+
+                            //LLAMO A LA FUNCIÓN PARA CREAR LAS CAJAS
+                            crearCajasModificar();
+                            
+                                
+                                
+                            //BOTON MODIFICAR DE DIV
+
+                            var botonModificar = $("<button>",
+                                {"text": "Modificar",
+                                "value" : numero
+                                });
+                            
+                            $("#botonModificar").append(botonModificar); 
+                            
+                            //BOTON DE MODIFICAR
+                            botonModificar.click(function(){
+
+                                //LLAMO A LA FUNCIÓN DE DATOS
+                                var datos = getJsonHospital();
+                                var request = "webresources/hospitales/put";                             
+                                
+                                $.ajax({
+                                    "url": urlHospital + request,
+                                    "type": "PUT",
+                                    "data" : datos,
+                                    "contentType" : "application/json",
+                                    success: function(){
+                                        console.log("Modificado el ID : "+numero);
+                                        cargarHospital();
+                                    }
+                                });
+
+                            });
+
+
+                        });
+
+
+                        $("#botonInsertar").click(function(){
+                                console.log("hola");
+                                crearCajasInsertar();
+                                console.log("hola2");
+                                //LLAMO A LA FUNCIÓN DE DATOS
+                                var datos = getJsonHospitalInsertar();
+                                var request = "/webresources/hospitales/post";
+
+                                $.ajax({
+                                    "url" : urlHospital + request,
+                                    "type":"POST",
+                                    "data" : datos,
+                                    "contentType": "application/json",
+                                    success : function(){
+                                        console.log("Insertando el ID : "+ numero);
+                                        cargarHospital();
+                                    }
+                                })
+                            })
+
+                        $("#tablahospital tbody").append(fila);
+
+                    });
+
+                }
+            });
+
+
+        }
+        function crearCajasModificar(){
+                             //CAJA DE ID
+                             var textID = $("<label>",
                                 {"text": "Modificar ID : "});
                             
                             var cajaID = $("<input>",
@@ -166,51 +251,65 @@
 
                             $("#cajaModificarCamas").append(textCamas);
                             $("#cajaModificarCamas").append(cajaCamas);
-                            
-                                
-                                
-                            //BOTON MODIFICAR DE DIV
-
-                            var botonModificar = $("<button>",
-                                {"text": "Modificar",
-                                "value" : numero
-                                });
-                            
-                            $("#botonModificar").append(botonModificar); 
-                            
-                            //BOTON DE MODIFICAR
-                            botonModificar.click(function(){
-
-                                //LLAMO A LA FUNCIÓN
-                                var datos = getJsonHospital();
-                                var request = "webresources/hospitales/put";                             
-                                
-                                $.ajax({
-                                    "url": urlHospital + request,
-                                    "type": "PUT",
-                                    "data" : datos,
-                                    "contentType" : "application/json",
-                                    success: function(){
-                                        console.log("Modificado el ID : "+numero);
-                                        cargarHospital();
-                                    }
-                                });
-
-                            });
-
-
-                        });
-
-                        $("#tablahospital tbody").append(fila);
-
-                    });
-
-                }
-            });
-
-
         }
-        function cargarModificar(){
+
+        function crearCajasInsertar(){
+                            //CAJA DE ID
+                            var textInsertarID = $("<label>",
+                                {"text": "Inserar ID : "});
+                            
+                            var cajaInsertarID = $("<input>",
+                            {"type" : "text",
+                                "id": "cajaInsertarID"   });
+
+                                
+                            $("#cajaInsertarID").append(textInsertarID);
+                            $("#cajaInsertarID").append(cajaInsertarID);
+
+                            //CAJA DE NOMBRE
+                            var textInsertarNombre = $("<label>",
+                                {"text": "Insertar Nombre : "});
+                            
+                            var cajaInsertarNombre = $("<input>",
+                            {"type" : "text",
+                                "id": "cajaInsertarNombre"   });
+
+                            $("#cajaInsertarNombre").append(textInsertarNombre);
+                            $("#cajaInsertarNombre").append(cajaInsertarNombre);
+
+                            //CAJA DE DIRECCION
+                            var textInsertarDireccion = $("<label>",
+                                {"text": "Insertar Dirección : "});
+                            
+                            var cajaInsertarDireccion = $("<input>",
+                            {"type" : "text",
+                                "id": "cajaInsertarDireccion"   });
+
+                            $("#cajaInsertarDireccion").append(textInsertarDireccion);
+                            $("#cajaInsertarDireccion").append(cajaInsertarDireccion);   
+
+                            //CAJA DE TELEFONO
+                            var textInsertarTelefono = $("<label>",
+                                {"text": "Insertar Telefono : "});
+                            
+                            var cajaInsertarTelefono = $("<input>",
+                            {"type" : "text",
+                                "id": "cajaInsertarTelefono"   });
+
+                            $("#cajaInsertarTelefono").append(textInsertarTelefono);
+                            $("#cajaInsertarTelefono").append(cajaInsertarTelefono);
+
+                            //CAJA DE CAMAS
+                            var textInsertarCamas= $("<label>",
+                                {"text": "Insertar Camas : "});
+                            
+                            var cajaInsertarCamas = $("<input>",
+                            {"type" : "text",
+                                "id": "cajaInsertarCamas"   });
+
+                            $("#cajaInsertarCamas").append(textInsertarCamas);
+                            $("#cajaInsertarCamas").append(cajaInsertarCamas);
+
 
         }
 
@@ -223,7 +322,7 @@
             var tel = "";
             var cam = "";
 
-            //GUARDAR LOS VALORES DE LAS CAJAS
+            //GUARDAR LOS VALORES DE LAS CAJAS, COJE EL ID
             var id = parseInt($("#cajaID").val());
             var nom = $("#cajaNombre").val();
             var dir = $("#cajaDireccion").val();
@@ -240,6 +339,61 @@
             var dataJson = JSON.stringify(hospital);
             return dataJson;
         }
+
+        function getJsonHospitalInsertar(){
+
+            //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
+            var id = "";
+            var nom = "";
+            var dir = "";
+            var tel = "";
+            var cam = "";
+
+            //GUARDAR LOS VALORES DE LAS CAJAS COJE EL ID
+            var id = parseInt($("#cajaInsertarID").val());
+            var nom = $("#cajaInsertarNombre").val();
+            var dir = $("#cajaInsertarDireccion").val();
+            var tel = $("#cajaInsertarTelefono").val();
+            var cam = parseInt($("#cajaInsertarCamas").val());
+
+            var hospital = new Object();
+            hospital.idhospital = id;
+            hospital.nombre = nom;
+            hospital.direccion = dir;
+            hospital.telefono = tel;
+            hospital.camas = cam;
+
+            var dataJson = JSON.stringify(hospital);
+            return dataJson;
+        }
+
+        //FUNCION PARA CREAR LAS CAJAS DE INSERTAR
+        function getJsonHospital(){
+
+        //PARA QUE NO SE REPITA LAS CAJAS DE NUEVO
+        var id = "";
+        var nom = "";
+        var dir = "";
+        var tel = "";
+        var cam = "";
+
+        //GUARDAR LOS VALORES DE LAS CAJAS
+        var id = parseInt($("#cajaID").val());
+        var nom = $("#cajaNombre").val();
+        var dir = $("#cajaDireccion").val();
+        var tel = $("#cajaTelefono").val();
+        var cam = parseInt($("#cajaCamas").val());
+
+        var hospital = new Object();
+        hospital.idhospital = id;
+        hospital.nombre = nom;
+        hospital.direccion = dir;
+        hospital.telefono = tel;
+        hospital.camas = cam;
+
+        var dataJson = JSON.stringify(hospital);
+        return dataJson;
+}
 
         $(document).ready(function(){
             cargarHospital();
